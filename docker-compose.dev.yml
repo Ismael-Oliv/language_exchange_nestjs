@@ -1,0 +1,46 @@
+version: "3.9"
+services:
+  database:
+    container_name: postgres_databases
+    image: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - dbdata:/data/db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=language_exchange
+
+  redis:
+    image: 'redislabs/rejson:2.0.0'
+    ports:
+      - '6379:6379'
+    volumes:
+      - 'redisdata:/data'
+  # api:
+  #   container_name: estacionai_api
+  #   build:
+  #     context: .
+  #     dockerfile: ./Dockerfile.dev
+  #   ports:
+  #     - "3001:3001"
+  #     - "9229:9229"
+  #   volumes:
+  #     - .:/home/app
+  #   depends_on:
+  #     - database
+
+  #   links:
+  #     - database
+
+  #   entrypoint: ["/bin/sh", "-c"]
+  #   command:
+  #     - |
+  #       ./wait-for-it.sh db:5432
+  #       npm run typeorm migration:run
+  #       npm run dev
+
+volumes:
+  dbdata:
+  redisdata:
